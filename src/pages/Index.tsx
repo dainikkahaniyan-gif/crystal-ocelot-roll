@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import { TodoForm } from "@/components/TodoForm";
 import { TodoList } from "@/components/TodoList";
 import { MadeWithDyad } from "@/components/made-with-dyad";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { showSuccess } from "@/utils/toast";
 
 export default function Index() {
@@ -34,9 +35,12 @@ export default function Index() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-background">
       <div className="max-w-md mx-auto p-4">
-        <h1 className="text-2xl font-bold mb-6 text-center">Todo List</h1>
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-bold">Todo List</h1>
+          <ThemeToggle />
+        </div>
         <TodoForm onAdd={addTodo} />
         <TodoList 
           todos={todos} 
