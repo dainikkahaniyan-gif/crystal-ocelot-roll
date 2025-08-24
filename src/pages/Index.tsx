@@ -8,6 +8,7 @@ import { CalendarView } from "@/components/CalendarView";
 import { MadeWithDyad } from "@/components/made-with-dyad";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { showSuccess } from "@/utils/toast";
+import { useReminders } from "@/hooks/useReminders";
 
 export default function Index() {
   const [todos, setTodos] = useState<Array<{
@@ -17,6 +18,7 @@ export default function Index() {
     date: Date;
   }>>([]);
   const [view, setView] = useState<'list' | 'calendar'>('list');
+  const { activeReminders, dismissReminder } = useReminders(todos);
 
   const addTodo = (text: string, date: Date = new Date()) => {
     const newTodo = {
@@ -35,10 +37,12 @@ export default function Index() {
         todo.id === id ? { ...todo, completed: !todo.completed } : todo
       )
     );
+    dismissReminder(id);
   };
 
   const deleteTodo = (id: string) => {
     setTodos(todos.filter((todo) => todo.id !== id));
+    dismissReminder(id);
     showSuccess("Todo deleted!");
   };
 
@@ -60,7 +64,7 @@ export default function Index() {
 
         {view === 'list' ? (
           <>
-            <TodoForm onAdd={(text) => addTodo(text)} />
+            <TodoForm onAdd={addTodo} />
             <TodoList 
               todos={todos} 
               onToggle={toggleTodo} 
