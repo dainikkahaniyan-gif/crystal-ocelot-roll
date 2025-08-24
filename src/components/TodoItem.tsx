@@ -3,16 +3,18 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
+import { format } from "date-fns";
 
 interface TodoItemProps {
   id: string;
   text: string;
   completed: boolean;
+  date?: Date;
   onToggle: (id: string) => void;
   onDelete: (id: string) => void;
 }
 
-export const TodoItem = ({ id, text, completed, onToggle, onDelete }: TodoItemProps) => {
+export const TodoItem = ({ id, text, completed, date, onToggle, onDelete }: TodoItemProps) => {
   return (
     <div className="flex items-center justify-between p-4 border rounded-lg mb-2">
       <div className="flex items-center space-x-2">
@@ -20,9 +22,16 @@ export const TodoItem = ({ id, text, completed, onToggle, onDelete }: TodoItemPr
           checked={completed} 
           onCheckedChange={() => onToggle(id)}
         />
-        <span className={completed ? "line-through text-gray-500" : ""}>
-          {text}
-        </span>
+        <div>
+          <span className={completed ? "line-through text-gray-500" : ""}>
+            {text}
+          </span>
+          {date && (
+            <div className="text-xs text-gray-500">
+              {format(date, 'MMM d, yyyy')}
+            </div>
+          )}
+        </div>
       </div>
       <Button 
         variant="ghost" 
